@@ -1,6 +1,6 @@
 # There can only be a single job definition per file.
 # Create a job with ID and Name 'example'
-job "example" {
+job "vm-redis" {
 	# Run the job in the global region, which is the default.
 	# region = "global"
 
@@ -15,6 +15,11 @@ job "example" {
 	# This can be 1 to 100, inclusively, and defaults to 50.
 	# priority = 50
 
+        # Constrain to VM
+        constraint {
+               attribute = "${node.class}"
+               value = "vm"
+        }
 	# Configure the job to do rolling updates
 	update {
 		# Stagger updates every 10 seconds
