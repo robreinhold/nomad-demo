@@ -1,7 +1,7 @@
 var restify = require('restify');
 
 var server = restify.createServer({
-    name: 'alice',
+    name: 'simple',
     version: '1.0.0'
 });
 server.use(restify.acceptParser(server.acceptable));
