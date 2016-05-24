@@ -4,7 +4,7 @@ client {
   enabled = true
   options {
     "consul.address" = "10.0.2.2:8500"
-    "docker.auth.config" = "/home/docker/.docker/config.json"
+    "docker.auth.config" = "/home/docker/nomad-demo/config.json"
   }
   node_class = "alpha"
   servers = ["10.0.2.2"]
