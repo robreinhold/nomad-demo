@@ -1,0 +1,3 @@
+[submodule "portal-demo/vision_asp"]
+	path = portal-demo/vision_asp
+	url = git@git.gogoair.com:ggvsd/vision_asp.git
