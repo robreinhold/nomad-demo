@@ -1,0 +1,20 @@
+version: '2'
+services:
+  asp:
+    build: vision_asp/
+    container_name: asp
+    ports:
+      - "8080:8080"
+    volumes:
+      - /var/log/asp:/var/log/tomcat
+      - /etc/asp:/etc/asp
+      - /etc/asp/test-systeminfo.properties:/root/test-systeminfo.properties
+  demo:
+    build: portal-demo/
+    container_name: demo
+    ports:
+      - "8090:8080"
+    environment:
+      ASP_DNS_NAME: "asp"
+    depends_on:
+      - asp
