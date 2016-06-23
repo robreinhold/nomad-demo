@@ -1,6 +1,6 @@
 # There can only be a single job definition per file.
 # Create a job with ID and Name 'example'
-job "iptv" {
+job "asp-portal" {
   # Run the job in the global region, which is the default.
   # region = "global"
 
@@ -27,16 +27,10 @@ job "iptv" {
 
   # Each task in the group will be
   # scheduled onto the same machine.
-  group "packager-nginx" {
+  group "portal" {
     # Control the number of instances of this groups.
     # Defaults to 1
     # count = 1
-
-    # Constrain to alpha
-    constraint {
-      attribute = "${node.class}"
-      value = "alpha"
-    }
 
     # Configure the restart policy for the task group. If not provided, a
     # default is used based on the job type.
@@ -56,7 +50,7 @@ job "iptv" {
     }
 
     # Define a task to run
-    task "manager" {
+    task "portal" {
       # Use Docker to run the task.
       driver = "docker"
 
@@ -67,108 +61,6 @@ job "iptv" {
 
       service {
         name = "iptv-manager"
-        tags = [
-          "global",
-          "iptv"]
-      }
-
-      # We must specify the resources required for
-      # this task to ensure it runs on a machine with
-      # enough capacity.
-      resources {
-        cpu = 500
-        # 500 Mhz
-        memory = 256
-        # 256MB
-        network {
-          mbits = 10
-        }
-      }
-    }
-
-    task "nginx" {
-      # Use Docker to run the task.
-      driver = "docker"
-
-      # Configure Docker driver with the image
-      config {
-        image = "gogoair-docker-build-poc.jfrog.io/a_iptv_nginx:0.2.0.14"
-        port_map {
-          http = 80
-        }
-      }
-
-      service {
-        name = "iptv-nginx"
-        tags = [
-          "global",
-          "iptv"]
-        port = "http"
-        check {
-          name = "alive"
-          type = "tcp"
-          interval = "10s"
-          timeout = "2s"
-        }
-      }
-
-      # We must specify the resources required for
-      # this task to ensure it runs on a machine with
-      # enough capacity.
-      resources {
-        cpu = 500
-        # 500 Mhz
-        memory = 256
-        # 256MB
-        network {
-          mbits = 10
-          port "http" {
-          }
-        }
-      }
-    }
-  }
-
-  group "audit" {
-    # Control the number of instances of this groups.
-    # Defaults to 1
-    # count = 1
-
-    # Constrain to alpha
-    constraint {
-      attribute = "${node.class}"
-      value = "beta"
-    }
-
-    # Configure the restart policy for the task group. If not provided, a
-    # default is used based on the job type.
-    restart {
-      # The number of attempts to run the job within the specified interval.
-      attempts = 10
-      interval = "5m"
-
-      # A delay between a task failing and a restart occurring.
-      delay = "25s"
-
-      # Mode controls what happens when a task has restarted "attempts"
-      # times within the interval. "delay" mode delays the next restart
-      # till the next interval. "fail" mode does not restart the task if
-      # "attempts" has been hit within the interval.
-      mode = "delay"
-    }
-
-    # Define a task to run
-    task "manager" {
-      # Use Docker to run the task.
-      driver = "docker"
-
-      # Configure Docker driver with the image
-      config {
-        image = "gogoair-docker-build-poc.jfrog.io/a_iptv_media_audit:1.2.0.13"
-      }
-
-      service {
-        name = "iptv-media-audit"
         tags = [
           "global",
           "iptv"]

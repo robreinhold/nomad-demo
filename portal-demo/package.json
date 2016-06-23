@@ -1,9 +1,0 @@
-{
-  "name": "portal-demo",
-  "version": "0.0.1",
-  "author": "rreinhold@gogoair.com",
-  "scripts": {
-    "start": "node index.js"
-  },
-  "license": "MIT"
-}
