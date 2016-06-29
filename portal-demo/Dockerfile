@@ -8,9 +8,10 @@ RUN pip install gevent
 
 EXPOSE 8080
 
-ADD main_app.py /app
-ADD views /app
-
 WORKDIR /app
+RUN mkdir /app/views
+
+ADD main_app.py .
+ADD views views/
 
 CMD ["gunicorn","-b","0.0.0.0:8080","-w","3","-k","gevent","--log-file","-","--log-level","debug","--access-logfile","-","main_app:app"]

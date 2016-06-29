@@ -56,7 +56,7 @@ job "asp-portal" {
 
       # Configure Docker driver with the image
       config {
-        image = "gogoair-docker-build-poc.jfrog.io/a_iptv_manager:1.2.0.160"
+        image = "docker.io/robreinhold/portal-demo"
       }
 
       service {
