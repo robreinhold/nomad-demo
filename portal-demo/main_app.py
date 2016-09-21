@@ -5,6 +5,7 @@ import requests
 
 # Required - throws a KeyError if not found
 asp_dns_name = os.environ['ASP_DNS_NAME']
+asp_port = os.environ['ASP_PORT']
 
 app = bottle.app()
 
@@ -14,7 +15,7 @@ def root_index():
 
 @bottle.route('/flightinfo')
 def flight_info():
-    response = requests.get('http://{}:8080/asp/api/flight/info'.format(asp_dns_name)).json()
+    response = requests.get('http://{}:{}/asp/api/flight/info'.format(asp_dns_name,asp_port)).json()
     # gps_info is a sub-dictionary - flatten it into the main data
     gps_info = dict.fromkeys(response[u'gpsData'])
     del response[u'gpsData']
@@ -23,22 +24,22 @@ def flight_info():
 
 @bottle.route('/systemstatus')
 def system_status():
-    response = requests.get('http://{}:8080/asp/api/flight/systemStatus'.format(asp_dns_name))
+    response = requests.get('http://{}:{}/asp/api/flight/systemStatus'.format(asp_dns_name,asp_port))
     return bottle.template('dict_table', data = response.json(), title = 'System Status')
 
 @bottle.route('/servicestatus')
 def service_status():
-    response = requests.get('http://{}:8080/asp/api/config/serviceStatus'.format(asp_dns_name))
+    response = requests.get('http://{}:{}/asp/api/config/serviceStatus'.format(asp_dns_name,asp_port))
     return bottle.template('dict_table', data = response.json(), title = 'Service Status')
 
 @bottle.route('/configall')
 def config_all():
-    response = requests.get('http://{}:8080/asp/api/config/all'.format(asp_dns_name))
+    response = requests.get('http://{}:{}/asp/api/config/all'.format(asp_dns_name,asp_port))
     return bottle.template('dict_table', data = response.json(), title = 'Config All')
 
 @bottle.route('/network')
 def network():
-    response = requests.get('http://{}:8080/asp/api/network/info'.format(asp_dns_name))
+    response = requests.get('http://{}:{}/asp/api/network/info'.format(asp_dns_name,asp_port))
     return bottle.template('dict_table', data = response.json(), title = 'Network Info')
 
 @bottle.route('/json')
@@ -54,5 +55,5 @@ def json_reply():
 
 if __name__=='__main__':
     bottle.debug(True)
-    bottle.run(app=app,host=asp_dns_name,port=8090)
+    bottle.run(app=app,host='localhost',port=8090)
 

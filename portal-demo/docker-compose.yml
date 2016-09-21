@@ -13,8 +13,9 @@ services:
     build: ./
     container_name: demo
     ports:
-      - "8090:8080"
+      - "8090:8090"
     environment:
       ASP_DNS_NAME: "asp"
+      ASP_PORT: "8080"
     depends_on:
       - asp
